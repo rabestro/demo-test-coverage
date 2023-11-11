@@ -22,8 +22,8 @@ public final class ForthEngine implements Consumer<String>, Supplier<List<Intege
     private final Deque<Integer> stack = new ArrayDeque<>();
     private final Map<String, Consumer<Deque<Integer>>> words;
 
-    public ForthEngine() {
-        words = new HashMap<>(ForthWord.builtInWords());
+    public ForthEngine(Map<String, Consumer<Deque<Integer>>> words) {
+        this.words = new HashMap<>(words);
     }
 
     private static List<String> tokenize(String command) {
@@ -71,7 +71,7 @@ public final class ForthEngine implements Consumer<String>, Supplier<List<Intege
 
     private Consumer<Deque<Integer>> parseToken(String token) {
         return evaluateToken(token).orElseThrow(
-                () -> new IllegalArgumentException("No definition available for operator \"" + token + "\"")
+            () -> new IllegalArgumentException("No definition available for operator \"" + token + "\"")
         );
     }
 
