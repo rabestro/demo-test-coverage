@@ -1,4 +1,4 @@
-package com.epam.engx.forth;
+package com.epam.engx.forth.engine;
 
 
 import com.epam.engx.forth.word.ForthWord;
