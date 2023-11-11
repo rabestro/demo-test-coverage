@@ -47,7 +47,7 @@
         <sonar.organization>rabestro</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.coverage.jacoco.xmlReportPaths>
-            ${project.basedir}/aggregate-report/target/site/jacoco-aggregate/jacoco.xml
+            ${project.basedir}/target/site/jacoco-aggregate/jacoco.xml
         </sonar.coverage.jacoco.xmlReportPaths>
         <sonar.language>java</sonar.language>
         <!-- Maven -->
