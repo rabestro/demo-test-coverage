@@ -40,6 +40,8 @@
         <module>legacy-forth</module>
         <module>legacy-forth-diffblue</module>
         <module>aggregate-report</module>
+        <module>legacy-forth-machinet</module>
+        <module>legacy-forth-simple-ai</module>
     </modules>
 
     <properties>
