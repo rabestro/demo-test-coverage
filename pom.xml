@@ -52,6 +52,7 @@
             ${project.basedir}/target/site/jacoco-aggregate/jacoco.xml
         </sonar.coverage.jacoco.xmlReportPaths>
         <sonar.language>java</sonar.language>
+        <sonar.report>${project.basedir}/target/site/jacoco-aggregate/jacoco.xml</sonar.report>
         <!-- Maven -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -59,7 +60,7 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- Test Framework -->
+            <!-- JUnit 5 Test Framework -->
             <dependency>
                 <groupId>org.junit</groupId>
                 <artifactId>junit-bom</artifactId>
@@ -72,6 +73,20 @@
                 <artifactId>mockito-core</artifactId>
                 <version>5.4.0</version>
                 <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>3.21.0</version>
+                <scope>test</scope>
+            </dependency>
+            <!-- Spock Test Framework -->
+            <dependency>
+                <groupId>org.spockframework</groupId>
+                <artifactId>spock-bom</artifactId>
+                <version>2.3-groovy-4.0</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -98,6 +113,21 @@
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>3.1.2</version>
+                    <configuration>
+                        <useFile>false</useFile>
+                        <includes>
+                            <include>**/*Test</include>
+                            <include>**/*Spec</include>
+                        </includes>
+                        <statelessTestsetReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5Xml30StatelessReporter">
+                            <disable>false</disable>
+                            <version>3.0</version>
+                            <usePhrasedFileName>false</usePhrasedFileName>
+                            <usePhrasedTestSuiteClassName>true</usePhrasedTestSuiteClassName>
+                            <usePhrasedTestCaseClassName>true</usePhrasedTestCaseClassName>
+                            <usePhrasedTestCaseMethodName>true</usePhrasedTestCaseMethodName>
+                        </statelessTestsetReporter>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <artifactId>maven-failsafe-plugin</artifactId>
@@ -151,6 +181,22 @@
                     <artifactId>sonar-maven-plugin</artifactId>
                     <version>3.9.0.2155</version>
                 </plugin>
+                <!-- Mandatory plugins for using Spock -->
+                <plugin>
+                    <!-- The gmavenplus plugin is used to compile Groovy code. -->
+                    <!-- To learn more visit https://github.com/groovy/GMavenPlus/wiki -->
+                    <groupId>org.codehaus.gmavenplus</groupId>
+                    <artifactId>gmavenplus-plugin</artifactId>
+                    <version>3.0.0</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>compile</goal>
+                                <goal>compileTests</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
@@ -203,18 +249,18 @@
                                     <goal>prepare-agent</goal>
                                 </goals>
                             </execution>
-                            <execution>
-                                <id>report</id>
-                                <phase>test</phase>
-                                <goals>
-                                    <goal>report</goal>
-                                </goals>
-                                <configuration>
-                                    <formats>
-                                        <format>XML</format>
-                                    </formats>
-                                </configuration>
-                            </execution>
+<!--                            <execution>-->
+<!--                                <id>report</id>-->
+<!--                                <phase>test</phase>-->
+<!--                                <goals>-->
+<!--                                    <goal>report</goal>-->
+<!--                                </goals>-->
+<!--                                <configuration>-->
+<!--                                    <formats>-->
+<!--                                        <format>XML</format>-->
+<!--                                    </formats>-->
+<!--                                </configuration>-->
+<!--                            </execution>-->
                         </executions>
                     </plugin>
                 </plugins>
