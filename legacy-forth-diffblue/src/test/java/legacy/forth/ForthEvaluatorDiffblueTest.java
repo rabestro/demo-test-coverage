@@ -1,11 +1,13 @@
 package legacy.forth;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 class ForthEvaluatorDiffblueTest {
     /**
@@ -14,10 +16,9 @@ class ForthEvaluatorDiffblueTest {
     @Test
     void testEvaluateProgram() {
         ForthEvaluator forthEvaluator = new ForthEvaluator();
-
-        ArrayList<String> expression = new ArrayList<>();
-        expression.add("foo");
-        assertThrows(IllegalArgumentException.class, () -> forthEvaluator.evaluateProgram(expression));
+        ArrayList<String> commands = new ArrayList<>();
+        List<Integer> actualEvaluateProgramResult = forthEvaluator.evaluateProgram(commands);
+        assertTrue(actualEvaluateProgramResult.isEmpty());
     }
 
     /**
@@ -27,10 +28,9 @@ class ForthEvaluatorDiffblueTest {
     void testEvaluateProgram2() {
         ForthEvaluator forthEvaluator = new ForthEvaluator();
 
-        ArrayList<String> expression = new ArrayList<>();
-        expression.add("9");
-        expression.add("foo");
-        assertThrows(IllegalArgumentException.class, () -> forthEvaluator.evaluateProgram(expression));
+        ArrayList<String> commands = new ArrayList<>();
+        commands.add("foo");
+        assertThrows(IllegalArgumentException.class, () -> forthEvaluator.evaluateProgram(commands));
     }
 
     /**
@@ -40,12 +40,9 @@ class ForthEvaluatorDiffblueTest {
     void testEvaluateProgram3() {
         ForthEvaluator forthEvaluator = new ForthEvaluator();
 
-        ArrayList<String> expression = new ArrayList<>();
-        expression.add("9");
-        List<Integer> actualEvaluateProgramResult = forthEvaluator.evaluateProgram(expression);
-        assertEquals(1, actualEvaluateProgramResult.size());
-        assertEquals(9, actualEvaluateProgramResult.get(0));
-        assertTrue(forthEvaluator.usrOpDefinition.isEmpty());
+        ArrayList<String> commands = new ArrayList<>();
+        commands.add(" +");
+        assertThrows(IllegalArgumentException.class, () -> forthEvaluator.evaluateProgram(commands));
     }
 
     /**
@@ -55,9 +52,10 @@ class ForthEvaluatorDiffblueTest {
     void testEvaluateProgram4() {
         ForthEvaluator forthEvaluator = new ForthEvaluator();
 
-        ArrayList<String> expression = new ArrayList<>();
-        expression.add("*");
-        assertThrows(IllegalArgumentException.class, () -> forthEvaluator.evaluateProgram(expression));
+        ArrayList<String> commands = new ArrayList<>();
+        commands.add(" ");
+        List<Integer> actualEvaluateProgramResult = forthEvaluator.evaluateProgram(commands);
+        assertTrue(actualEvaluateProgramResult.isEmpty());
     }
 
     /**
@@ -67,9 +65,9 @@ class ForthEvaluatorDiffblueTest {
     void testEvaluateProgram5() {
         ForthEvaluator forthEvaluator = new ForthEvaluator();
 
-        ArrayList<String> expression = new ArrayList<>();
-        expression.add("DUP");
-        assertThrows(IllegalArgumentException.class, () -> forthEvaluator.evaluateProgram(expression));
+        ArrayList<String> commands = new ArrayList<>();
+        commands.add("-");
+        assertThrows(IllegalArgumentException.class, () -> forthEvaluator.evaluateProgram(commands));
     }
 
     /**
@@ -79,9 +77,9 @@ class ForthEvaluatorDiffblueTest {
     void testEvaluateProgram6() {
         ForthEvaluator forthEvaluator = new ForthEvaluator();
 
-        ArrayList<String> expression = new ArrayList<>();
-        expression.add("DROP");
-        assertThrows(IllegalArgumentException.class, () -> forthEvaluator.evaluateProgram(expression));
+        ArrayList<String> commands = new ArrayList<>();
+        commands.add("*");
+        assertThrows(IllegalArgumentException.class, () -> forthEvaluator.evaluateProgram(commands));
     }
 
     /**
@@ -91,9 +89,11 @@ class ForthEvaluatorDiffblueTest {
     void testEvaluateProgram7() {
         ForthEvaluator forthEvaluator = new ForthEvaluator();
 
-        ArrayList<String> expression = new ArrayList<>();
-        expression.add("OVER");
-        assertThrows(IllegalArgumentException.class, () -> forthEvaluator.evaluateProgram(expression));
+        ArrayList<String> commands = new ArrayList<>();
+        commands.add("42");
+        List<Integer> actualEvaluateProgramResult = forthEvaluator.evaluateProgram(commands);
+        assertEquals(1, actualEvaluateProgramResult.size());
+        assertEquals(42, actualEvaluateProgramResult.get(0));
     }
 
     /**
@@ -103,9 +103,9 @@ class ForthEvaluatorDiffblueTest {
     void testEvaluateProgram8() {
         ForthEvaluator forthEvaluator = new ForthEvaluator();
 
-        ArrayList<String> expression = new ArrayList<>();
-        expression.add("SWAP");
-        assertThrows(IllegalArgumentException.class, () -> forthEvaluator.evaluateProgram(expression));
+        ArrayList<String> commands = new ArrayList<>();
+        commands.add("/");
+        assertThrows(IllegalArgumentException.class, () -> forthEvaluator.evaluateProgram(commands));
     }
 
     /**
@@ -115,12 +115,9 @@ class ForthEvaluatorDiffblueTest {
     void testEvaluateProgram9() {
         ForthEvaluator forthEvaluator = new ForthEvaluator();
 
-        ArrayList<String> expression = new ArrayList<>();
-        expression.add("42");
-        List<Integer> actualEvaluateProgramResult = forthEvaluator.evaluateProgram(expression);
-        assertEquals(1, actualEvaluateProgramResult.size());
-        assertEquals(42, actualEvaluateProgramResult.get(0));
-        assertTrue(forthEvaluator.usrOpDefinition.isEmpty());
+        ArrayList<String> commands = new ArrayList<>();
+        commands.add("dup");
+        assertThrows(IllegalArgumentException.class, () -> forthEvaluator.evaluateProgram(commands));
     }
 
     /**
@@ -130,9 +127,9 @@ class ForthEvaluatorDiffblueTest {
     void testEvaluateProgram10() {
         ForthEvaluator forthEvaluator = new ForthEvaluator();
 
-        ArrayList<String> expression = new ArrayList<>();
-        expression.add("U");
-        assertThrows(IllegalArgumentException.class, () -> forthEvaluator.evaluateProgram(expression));
+        ArrayList<String> commands = new ArrayList<>();
+        commands.add("drop");
+        assertThrows(IllegalArgumentException.class, () -> forthEvaluator.evaluateProgram(commands));
     }
 
     /**
@@ -142,9 +139,9 @@ class ForthEvaluatorDiffblueTest {
     void testEvaluateProgram11() {
         ForthEvaluator forthEvaluator = new ForthEvaluator();
 
-        ArrayList<String> expression = new ArrayList<>();
-        expression.add("");
-        assertThrows(IllegalStateException.class, () -> forthEvaluator.evaluateProgram(expression));
+        ArrayList<String> commands = new ArrayList<>();
+        commands.add("swap");
+        assertThrows(IllegalArgumentException.class, () -> forthEvaluator.evaluateProgram(commands));
     }
 
     /**
@@ -154,11 +151,9 @@ class ForthEvaluatorDiffblueTest {
     void testEvaluateProgram12() {
         ForthEvaluator forthEvaluator = new ForthEvaluator();
 
-        ArrayList<String> expression = new ArrayList<>();
-        expression.add(" ");
-        List<Integer> actualEvaluateProgramResult = forthEvaluator.evaluateProgram(expression);
-        assertTrue(actualEvaluateProgramResult.isEmpty());
-        assertTrue(forthEvaluator.usrOpDefinition.isEmpty());
+        ArrayList<String> commands = new ArrayList<>();
+        commands.add("over");
+        assertThrows(IllegalArgumentException.class, () -> forthEvaluator.evaluateProgram(commands));
     }
 
     /**
@@ -168,80 +163,8 @@ class ForthEvaluatorDiffblueTest {
     void testEvaluateProgram13() {
         ForthEvaluator forthEvaluator = new ForthEvaluator();
 
-        ArrayList<String> expression = new ArrayList<>();
-        expression.add(";");
-        assertThrows(IllegalStateException.class, () -> forthEvaluator.evaluateProgram(expression));
-    }
-
-    /**
-     * Method under test: {@link ForthEvaluator#evaluateProgram(List)}
-     */
-    @Test
-    void testEvaluateProgram14() {
-        ForthEvaluator forthEvaluator = new ForthEvaluator();
-
-        ArrayList<String> expression = new ArrayList<>();
-        expression.add("Multiplication requires that the stack contain at least 2 values");
-        assertThrows(IllegalArgumentException.class, () -> forthEvaluator.evaluateProgram(expression));
-    }
-
-    /**
-     * Method under test: {@link ForthEvaluator#evaluateProgram(List)}
-     */
-    @Test
-    void testEvaluateProgram15() {
-        ForthEvaluator forthEvaluator = new ForthEvaluator();
-
-        ArrayList<String> expression = new ArrayList<>();
-        expression.add("Duplicating requires that the stack contain at least 1 value");
-        assertThrows(IllegalArgumentException.class, () -> forthEvaluator.evaluateProgram(expression));
-    }
-
-    /**
-     * Method under test: {@link ForthEvaluator#evaluateProgram(List)}
-     */
-    @Test
-    void testEvaluateProgram16() {
-        ForthEvaluator forthEvaluator = new ForthEvaluator();
-
-        ArrayList<String> expression = new ArrayList<>();
-        expression.add("Dropping requires that the stack contain at least 1 value");
-        assertThrows(IllegalArgumentException.class, () -> forthEvaluator.evaluateProgram(expression));
-    }
-
-    /**
-     * Method under test: {@link ForthEvaluator#evaluateProgram(List)}
-     */
-    @Test
-    void testEvaluateProgram17() {
-        ForthEvaluator forthEvaluator = new ForthEvaluator();
-
-        ArrayList<String> expression = new ArrayList<>();
-        expression.add("Overing requires that the stack contain at least 2 values");
-        assertThrows(IllegalArgumentException.class, () -> forthEvaluator.evaluateProgram(expression));
-    }
-
-    /**
-     * Method under test: {@link ForthEvaluator#evaluateProgram(List)}
-     */
-    @Test
-    void testEvaluateProgram18() {
-        ForthEvaluator forthEvaluator = new ForthEvaluator();
-
-        ArrayList<String> expression = new ArrayList<>();
-        expression.add("Swapping requires that the stack contain at least 2 values");
-        assertThrows(IllegalArgumentException.class, () -> forthEvaluator.evaluateProgram(expression));
-    }
-
-    /**
-     * Method under test: {@link ForthEvaluator#evaluateProgram(List)}
-     */
-    @Test
-    void testEvaluateProgram19() {
-        ForthEvaluator forthEvaluator = new ForthEvaluator();
-
-        ArrayList<String> expression = new ArrayList<>();
-        expression.add("No definition available for operator \"%s\"");
-        assertThrows(IllegalArgumentException.class, () -> forthEvaluator.evaluateProgram(expression));
+        ArrayList<String> commands = new ArrayList<>();
+        commands.add("No definition available for operator \"%s\"");
+        assertThrows(IllegalArgumentException.class, () -> forthEvaluator.evaluateProgram(commands));
     }
 }
