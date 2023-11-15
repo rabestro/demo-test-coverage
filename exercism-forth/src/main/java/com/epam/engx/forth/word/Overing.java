@@ -4,6 +4,7 @@ import java.util.Deque;
 
 import static java.util.Objects.requireNonNull;
 
+
 public final class Overing extends AbstractBinaryOperator {
 
     @Override
