@@ -2,11 +2,12 @@ package com.epam.engx.forth.word;
 
 import java.util.Deque;
 
-public final class Division implements ForthBinaryOperator {
+public final class Division extends AbstractBinaryOperator {
 
     @Override
     public void accept(Deque<Integer> stack) {
-        ensureSize(stack);
+        super.accept(stack);
+
         int divisor = stack.pop();
         if (divisor == 0) {
             throw new IllegalArgumentException("Division by 0 is not allowed");
