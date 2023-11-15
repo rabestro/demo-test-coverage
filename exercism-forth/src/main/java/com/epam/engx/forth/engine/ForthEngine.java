@@ -1,7 +1,7 @@
 package com.epam.engx.forth.engine;
 
 
-import com.epam.engx.forth.word.ForthWord;
+import com.epam.engx.forth.word.PushNumber;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -76,7 +76,7 @@ public final class ForthEngine implements Consumer<String>, Supplier<List<Intege
     }
 
     private Optional<Consumer<Deque<Integer>>> evaluateToken(String token) {
-        var word = IS_NUMBER.test(token) ? ForthWord.number(token) : words.get(token);
+        var word = IS_NUMBER.test(token) ? PushNumber.of(token) : words.get(token);
         return Optional.ofNullable(word);
     }
 }

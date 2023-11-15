@@ -7,10 +7,6 @@ import java.util.function.Consumer;
 @FunctionalInterface
 public interface ForthWord extends Consumer<Deque<Integer>> {
 
-    static ForthWord number(String token) {
-        return stack -> stack.push(Integer.parseInt(token));
-    }
-
     default int requiredStackSize() {
         return 0;
     }
