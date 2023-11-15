@@ -2,10 +2,11 @@ package com.epam.engx.forth.word;
 
 import java.util.Deque;
 
-public class Subtraction implements ForthBinaryOperator {
+public final class Subtraction extends AbstractBinaryOperator {
+
     @Override
     public void accept(Deque<Integer> stack) {
-        ensureSize(stack);
+        super.accept(stack);
         stack.push(-stack.pop() + stack.pop());
     }
 }
