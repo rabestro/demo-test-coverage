@@ -21,7 +21,7 @@
     <dependencies>
         <dependency>
             <groupId>com.epam.engx</groupId>
-            <artifactId>exercism-forth</artifactId>
+            <artifactId>forth-exercism</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

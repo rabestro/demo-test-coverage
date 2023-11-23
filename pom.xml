@@ -33,12 +33,15 @@
     </developers>
 
     <modules>
-        <module>exercism-forth</module>
+        <module>bank-legacy</module>
+        <module>bank</module>
+        <module>forth-exercism</module>
         <module>legacy-forth</module>
         <module>legacy-forth-diffblue</module>
         <module>aggregate-report</module>
         <module>legacy-forth-machinet</module>
         <module>legacy-forth-simple-ai</module>
+        <module>forth-legacy-one</module>
     </modules>
 
     <scm>
@@ -52,13 +55,6 @@
         <url>https://github.com/rabestro/demo-test-coverage/issues</url>
     </issueManagement>
 
-    <distributionManagement>
-        <site>
-            <id>github</id>
-            <url>scm:git:git@github.com:rabestro/demo-test-coverage.git</url>
-        </site>
-    </distributionManagement>
-
     <properties>
         <!-- SonarCloud -->
         <sonar.organization>rabestro</sonar.organization>
@@ -67,10 +63,19 @@
             ../aggregate-report/target/site/jacoco-aggregate/jacoco.xml
         </sonar.coverage.jacoco.xmlReportPaths>
         <sonar.language>java</sonar.language>
+
         <!-- Maven -->
+        <java.version>21</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
+
+    <distributionManagement>
+        <site>
+            <id>github</id>
+            <url>scm:git:git@github.com:rabestro/demo-test-coverage.git</url>
+        </site>
+    </distributionManagement>
 
     <dependencyManagement>
         <dependencies>
@@ -102,6 +107,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <!-- Groovy: A powerful multi-faceted language for the JVM  -->
+            <dependency>
+                <groupId>org.apache.groovy</groupId>
+                <artifactId>groovy</artifactId>
+                <version>4.0.15</version>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -114,10 +126,25 @@
                     <version>3.4.1</version>
                 </plugin>
                 <plugin>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>3.3.0</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                                <goal>test-jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <!-- Maven Compiler Plugin -->
+                <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.11.0</version>
                     <configuration>
-                        <release>17</release>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -133,7 +160,8 @@
                             <include>**/*Test</include>
                             <include>**/*Spec</include>
                         </includes>
-                        <statelessTestsetReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5Xml30StatelessReporter">
+                        <statelessTestsetReporter
+                            implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5Xml30StatelessReporter">
                             <disable>false</disable>
                             <version>3.0</version>
                             <usePhrasedFileName>false</usePhrasedFileName>
@@ -201,18 +229,40 @@
                     <!-- To learn more visit https://github.com/groovy/GMavenPlus/wiki -->
                     <groupId>org.codehaus.gmavenplus</groupId>
                     <artifactId>gmavenplus-plugin</artifactId>
-                    <version>3.0.0</version>
+                    <version>3.0.2</version>
                     <executions>
                         <execution>
                             <goals>
+                                <goal>addSources</goal>
+                                <goal>addTestSources</goal>
+                                <goal>generateStubs</goal>
                                 <goal>compile</goal>
+                                <goal>generateTestStubs</goal>
                                 <goal>compileTests</goal>
+                                <goal>removeStubs</goal>
+                                <goal>removeTestStubs</goal>
                             </goals>
                         </execution>
                     </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.gmavenplus</groupId>
+                <artifactId>gmavenplus-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
 
     <reporting>
@@ -248,18 +298,18 @@
                                     <goal>prepare-agent</goal>
                                 </goals>
                             </execution>
-<!--                            <execution>-->
-<!--                                <id>report</id>-->
-<!--                                <phase>test</phase>-->
-<!--                                <goals>-->
-<!--                                    <goal>report</goal>-->
-<!--                                </goals>-->
-<!--                                <configuration>-->
-<!--                                    <formats>-->
-<!--                                        <format>XML</format>-->
-<!--                                    </formats>-->
-<!--                                </configuration>-->
-<!--                            </execution>-->
+                            <execution>
+                                <id>report</id>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                                <configuration>
+                                    <formats>
+                                        <format>XML</format>
+                                    </formats>
+                                </configuration>
+                            </execution>
                         </executions>
                     </plugin>
                 </plugins>
