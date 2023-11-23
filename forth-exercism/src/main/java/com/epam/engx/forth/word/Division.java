@@ -1,6 +1,8 @@
 package com.epam.engx.forth.word;
 
 import java.util.Deque;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 public final class Division extends AbstractBinaryOperator {
 
