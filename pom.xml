@@ -33,6 +33,8 @@
     </developers>
 
     <modules>
+        <module>bank-legacy</module>
+        <module>bank</module>
         <module>exercism-forth</module>
         <module>legacy-forth</module>
         <module>legacy-forth-diffblue</module>
@@ -67,6 +69,8 @@
             ../aggregate-report/target/site/jacoco-aggregate/jacoco.xml
         </sonar.coverage.jacoco.xmlReportPaths>
         <sonar.language>java</sonar.language>
+
+        <java.version>17</java.version>
         <!-- Maven -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -113,11 +117,13 @@
                     <artifactId>maven-enforcer-plugin</artifactId>
                     <version>3.4.1</version>
                 </plugin>
+                <!-- Maven Compiler Plugin -->
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.11.0</version>
                     <configuration>
-                        <release>17</release>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
                     </configuration>
                 </plugin>
                 <plugin>
